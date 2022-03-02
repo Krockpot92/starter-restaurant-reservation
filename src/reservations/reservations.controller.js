@@ -5,12 +5,11 @@ const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 async function list(req, res) {
-  const isQuery = req.query.date
+  const isQuery = req.query.date;
   console.log("Test", req.query.date, isQuery, req.params);
-  if (isQuery ) {
-    console.log("we in")
-    service.isQuery(isQuery)
-    .then((data) => res.send({ data }));
+  if (isQuery) {
+    console.log("we in");
+    service.isQuery(isQuery).then((data) => res.send({ data }));
   }
 
   // const data = await service.list();
@@ -28,6 +27,23 @@ function reservationExists(req, res, next) {
       next({ status: 404, message: `Reservation cannot be found.` });
     })
     .catch(next);
+}
+
+function peopleCheck(propertyName) {
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+    if (typeof data[propertyName] == "number") {
+      return next();
+    }
+    next({ status: 400, message: `${propertyName} must be a number` });
+  };
+}
+
+function dateCheck(propertyName){
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+  myvar instanceof Date
+  }
 }
 
 function bodyDataHas(propertyName) {
@@ -52,7 +68,16 @@ async function destroy(req, res) {
 }
 
 module.exports = {
-  list:  asyncErrorBoundary(list),
-  create: [bodyDataHas("first_name"),bodyDataHas("last_name"), bodyDataHas("mobile_number"),bodyDataHas("reservation_time"),bodyDataHas("reservation_date"),bodyDataHas("people"),asyncErrorBoundary(create)],
+  list: asyncErrorBoundary(list),
+  create: [
+    bodyDataHas("first_name"),
+    bodyDataHas("last_name"),
+    bodyDataHas("mobile_number"),
+    bodyDataHas("reservation_time"),
+    bodyDataHas("reservation_date"),
+    bodyDataHas("people"),
+    peopleCheck("people"),
+    asyncErrorBoundary(create),
+  ],
   delete: [reservationExists, asyncErrorBoundary(destroy)],
 };
