@@ -30,6 +30,16 @@ function reservationExists(req, res, next) {
     .catch(next);
 }
 
+function bodyDataHas(propertyName) {
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+    if (data[propertyName]) {
+      return next();
+    }
+    next({ status: 400, message: `Must include a ${propertyName}` });
+  };
+}
+
 async function create(req, res) {
   const data = await service.create(req.body.data);
   res.status(201).json({ data });
@@ -42,7 +52,7 @@ async function destroy(req, res) {
 }
 
 module.exports = {
-  list: asyncErrorBoundary(list),
-  create: asyncErrorBoundary(create),
+  list:  asyncErrorBoundary(list),
+  create: [bodyDataHas("first_name"),bodyDataHas("last_name"), bodyDataHas("mobile_number"),bodyDataHas("reservation_time"),bodyDataHas("reservation_date"),bodyDataHas("people"),asyncErrorBoundary(create)],
   delete: [reservationExists, asyncErrorBoundary(destroy)],
 };
