@@ -41,8 +41,24 @@ function peopleCheck(propertyName) {
 
 function dateCheck(propertyName){
   return function (req, res, next) {
+    console.log
     const { data = {} } = req.body;
-  myvar instanceof Date
+    let result= data[propertyName]
+    if(Date.parse(result)){
+      return next()
+    }
+    next({ status: 400, message: `${propertyName} must be a date` });
+  }
+}
+
+function timeCheck(propertyName){
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+    let time= data[propertyName]
+    if(parseFloat(time) < 24 && parseFloat(time) > 0){
+      return next()
+    }
+    next({ status: 400, message: `${propertyName} is not a valid time` });
   }
 }
 
@@ -74,7 +90,9 @@ module.exports = {
     bodyDataHas("last_name"),
     bodyDataHas("mobile_number"),
     bodyDataHas("reservation_time"),
+    timeCheck("reservation_time"),
     bodyDataHas("reservation_date"),
+    dateCheck("reservation_date"),
     bodyDataHas("people"),
     peopleCheck("people"),
     asyncErrorBoundary(create),

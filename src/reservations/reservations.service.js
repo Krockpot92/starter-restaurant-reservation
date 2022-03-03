@@ -16,6 +16,7 @@ function isQuery(date){
         "reservation_time",
         "reservation_date")
     .where({reservation_date : date})
+    .orderBy("reservation_time")
 }
 
 function read(reservatinonId) {
