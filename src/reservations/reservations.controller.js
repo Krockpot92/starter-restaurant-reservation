@@ -1,17 +1,16 @@
 /**
  * List handler for reservation resources
  */
+const today = require ("../utils/date-time");
+
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 async function list(req, res) {
   const isQuery = req.query.date;
-  console.log("Test", req.query.date, isQuery, req.params);
   if (isQuery) {
-    console.log("we in");
     service.isQuery(isQuery).then((data) => res.send({ data }));
   }
-
   // const data = await service.list();
   // res.json({ data });
 }
@@ -39,27 +38,45 @@ function peopleCheck(propertyName) {
   };
 }
 
-function dateCheck(propertyName){
+function isTuesday(propertyName) {
   return function (req, res, next) {
-    console.log
     const { data = {} } = req.body;
-    let result= data[propertyName]
-    if(Date.parse(result)){
-      return next()
+
+    let result = data[propertyName];
+    let dateConversion = Date.parse(result);
+    let reservationDay = new Date(dateConversion).getDay();
+    console.log(result, dateConversion, reservationDay);
+    if (reservationDay === 1) {
+      return next({ status: 400, message: `closed` });
+      
     }
-    next({ status: 400, message: `${propertyName} must be a date` });
+    if(result< today.today() && !isNaN(reservationDay)){
+    return next({ status: 400, message: `future` })
+  }
+    return next();
   }
 }
 
-function timeCheck(propertyName){
+function dateCheck(propertyName) {
   return function (req, res, next) {
     const { data = {} } = req.body;
-    let time= data[propertyName]
-    if(parseFloat(time) < 24 && parseFloat(time) > 0){
-      return next()
+    let result = data[propertyName];
+    if (Date.parse(result)) {
+      return next();
+    }
+    next({ status: 400, message: `${propertyName} must be a date` });
+  };
+}
+
+function timeCheck(propertyName) {
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+    let time = data[propertyName];
+    if (parseFloat(time) < 24 && parseFloat(time) > 0) {
+      return next();
     }
     next({ status: 400, message: `${propertyName} is not a valid time` });
-  }
+  };
 }
 
 function bodyDataHas(propertyName) {
@@ -91,6 +108,7 @@ module.exports = {
     bodyDataHas("mobile_number"),
     bodyDataHas("reservation_time"),
     timeCheck("reservation_time"),
+    isTuesday("reservation_date"),
     bodyDataHas("reservation_date"),
     dateCheck("reservation_date"),
     bodyDataHas("people"),
