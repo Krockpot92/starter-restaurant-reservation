@@ -71,10 +71,16 @@ function dateCheck(propertyName) {
 function timeCheck(propertyName) {
   return function (req, res, next) {
     const { data = {} } = req.body;
-    let time = data[propertyName];
+    let time = data[propertyName].replace(":", ".");
+
+    if (parseFloat(time) < 10.30 || parseFloat(time) > 21.30) {
+      return next({ status: 400, message: `${propertyName} Time is not available`});
+    }
+
     if (parseFloat(time) < 24 && parseFloat(time) > 0) {
       return next();
     }
+
     next({ status: 400, message: `${propertyName} is not a valid time` });
   };
 }
