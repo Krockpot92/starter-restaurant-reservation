@@ -10,17 +10,16 @@ function list(){
 
 function isQuery(date){
     return knex(tableName)
-    .select("first_name",
-        "last_name",
-        "mobile_number",
-        "reservation_time",
-        "reservation_date")
+    .select("*")
     .where({reservation_date : date})
     .orderBy("reservation_time")
 }
 
-function read(reservatinonId) {
-    return knex(tableName).select("*").where({ reservation_id: reservatinonId }).first();
+function read(reservation_id) {
+    return knex(tableName)
+    .select("*")
+    .where({reservation_id})
+    .first();
   }
 
 function create(newReservation){

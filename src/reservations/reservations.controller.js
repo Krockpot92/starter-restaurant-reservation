@@ -16,8 +16,9 @@ async function list(req, res) {
 }
 
 function reservationExists(req, res, next) {
+  console.log(req.params.reservation_id)
   service
-    .read(req.params.reservationId)
+    .read(req.params.reservation_id)
     .then((reservation) => {
       if (reservation) {
         res.locals.reservation = reservation;
@@ -27,6 +28,10 @@ function reservationExists(req, res, next) {
     })
     .catch(next);
 }
+
+function read(req, res, next) {
+  res.json({ data: res.locals.reservation });
+};
 
 function peopleCheck(propertyName) {
   return function (req, res, next) {
@@ -121,5 +126,6 @@ module.exports = {
     peopleCheck("people"),
     asyncErrorBoundary(create),
   ],
+  read:[reservationExists, read],
   delete: [reservationExists, asyncErrorBoundary(destroy)],
 };
