@@ -23,7 +23,7 @@ function reservationExists(req, res, next) {
         res.locals.reservation = reservation;
         return next();
       }
-      next({ status: 404, message: `Reservation cannot be found.` });
+      next({ status: 404, message: `99` });
     })
     .catch(next);
 }
