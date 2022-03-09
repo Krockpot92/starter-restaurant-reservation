@@ -16,7 +16,6 @@ async function list(req, res) {
 }
 
 function reservationExists(req, res, next) {
-  console.log(req.params.reservation_id)
   service
     .read(req.params.reservation_id)
     .then((reservation) => {

@@ -32,6 +32,7 @@ function create(newReservation){
 function destroy(reservationId) {
     return knex(tableName).where({ reservation_id: reservationId }).del();
   }
+  
 
 module.exports={
     list,
