@@ -33,11 +33,19 @@ function destroy(reservationId) {
     return knex(tableName).where({ reservation_id: reservationId }).del();
   }
   
+  function statusUpdate(updatedId,reservation_id){
+    return knex(tableName)
+    .where({reservation_id})
+    .update(updatedId)
+    .returning("*")
+    .then((data)=> data[0])
+}
 
 module.exports={
     list,
     create,
     destroy,
     read,
-    isQuery
+    isQuery,
+    statusUpdate,
 }

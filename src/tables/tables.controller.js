@@ -22,11 +22,9 @@ function bodyDataHas(propertyName) {
 }
 
 function tableExists(req, res, next) {
-  if(isNaN(parseFloat(req.params.table_id)) || !req.params){
-    return next({ status: 404, message: `Invalid Id` })
+  if (isNaN(parseFloat(req.params.table_id)) || !req.params) {
+    return next({ status: 404, message: `Invalid Id` });
   }
-
- console.log(req.params )
 
   service
     .read(req.params.table_id)
@@ -64,9 +62,9 @@ function read(req, res, next) {
   res.json({ data: res.locals.table });
 }
 
-function reservationRead(req,res,next) {
-  if(!req.body.data.reservation_id){
-    return next({ status: 400, message: `reservation_id`});
+function reservationRead(req, res, next) {
+  if (!req.body.data.reservation_id) {
+    return next({ status: 400, message: `reservation_id` });
   }
   service
     .getPeople(req.body.data.reservation_id)
@@ -83,23 +81,36 @@ function reservationRead(req,res,next) {
 async function update(req, res, next) {
   const tableId = req.params.table_id;
   const newData = req.body.data;
-  const peopleData=  res.locals.reservation.people
-  const capacity = res.locals.table.capacity
+  const peopleData = res.locals.reservation.people;
+  const capacity = res.locals.table.capacity;
 
-  if(res.locals.table.reservation_id !=null){
+  if (res.locals.table.reservation_id != null) {
     return next({ status: 400, message: "occupied" });
   }
-  
-  if(!newData.reservation_id|| typeof newData.reservation_id != "number"){
+
+  if (!newData.reservation_id || typeof newData.reservation_id != "number") {
     return next({ status: 400, message: "reservation_id" });
   }
-  
-  if(capacity < peopleData){
+
+  if (capacity < peopleData) {
     return next({ status: 400, message: "capacity" });
   }
 
   const data = await service.update(newData, Number(tableId));
   return res.status(200).json({ data: data });
+}
+
+async function destroy(req, res,next ) {
+  const tableId = req.params.table_id;
+  const newData = { reservation_id: null }
+  const oldData = res.locals.table.reservation_id
+  
+  if(oldData === null){
+    return next({ status: 400, message: "not occupied" });
+  }
+
+  const data = await service.update(newData, Number(tableId));
+  return res.status(200).json({ data: data })
 }
 
 module.exports = {
@@ -111,6 +122,20 @@ module.exports = {
     capacityCheck("capacity"),
     asyncErrorBoundary(create),
   ],
-  read: [tableExists,bodyDataHas("table_name"), bodyDataHas("capacity"),asyncErrorBoundary(read)],
-  update: [tableExists,bodyDataHas("reservation_id"), asyncErrorBoundary(reservationRead), asyncErrorBoundary(update)],
+  read: [
+    tableExists,
+    bodyDataHas("table_name"),
+    bodyDataHas("capacity"),
+    asyncErrorBoundary(read),
+  ],
+  update: [
+    tableExists,
+    bodyDataHas("reservation_id"),
+    asyncErrorBoundary(reservationRead),
+    asyncErrorBoundary(update),
+  ],
+  delete: [
+    tableExists,
+    asyncErrorBoundary(destroy)
+  ]
 };

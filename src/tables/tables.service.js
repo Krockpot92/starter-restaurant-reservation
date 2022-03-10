@@ -31,14 +31,12 @@ function getPeople(reservation_id) {
   }
 
 function update(updatedId,table_id){
-    //console.log(table_id)
       return knex(tableName)
       .where({table_id})
       .update(updatedId)
       .returning("*")
       .then((data)=> data[0])
 }
-
 
 
 module.exports={

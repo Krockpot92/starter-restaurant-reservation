@@ -49,7 +49,7 @@ function isTuesday(propertyName) {
     let result = data[propertyName];
     let dateConversion = Date.parse(result);
     let reservationDay = new Date(dateConversion).getDay();
-    console.log(result, dateConversion, reservationDay);
+    
     if (reservationDay === 1) {
       return next({ status: 400, message: `closed` });
       
@@ -110,6 +110,17 @@ async function destroy(req, res) {
   res.sendStatus(204);
 }
 
+async function statusUpdate(req, res, next) {
+  const reservationId = req.params.reservation_id;
+  const newData = req.body.data;
+  const peopleData = res.locals.reservation
+  return console.log("test", newData, peopleData, reservationId)
+
+  //const data = await service.update(newData, Number(reservationId));
+}
+  
+  
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -127,4 +138,5 @@ module.exports = {
   ],
   read:[reservationExists, read],
   delete: [reservationExists, asyncErrorBoundary(destroy)],
+  update:[reservationExists, asyncErrorBoundary(statusUpdate)],
 };
