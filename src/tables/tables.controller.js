@@ -84,6 +84,13 @@ async function update(req, res, next) {
   const peopleData = res.locals.reservation.people;
   const capacity = res.locals.table.capacity;
 
+  const newStatus = {status: "seated"}
+  const oldData = res.locals.reservation.reservation_id
+
+  if(res.locals.reservation.status === "seated" || res.locals.reservation.status==="finshed" ){
+    return next({status:400, message: "already seated"})
+  }
+
   if (res.locals.table.reservation_id != null) {
     return next({ status: 400, message: "occupied" });
   }
@@ -96,21 +103,27 @@ async function update(req, res, next) {
     return next({ status: 400, message: "capacity" });
   }
 
+  const statusData = await service.statusUpdate(newStatus ,Number(oldData))
   const data = await service.update(newData, Number(tableId));
-  return res.status(200).json({ data: data });
+
+  return res.status(200).json({ data: data }), res.status(200).json({ data: statusData })
 }
 
 async function destroy(req, res,next ) {
   const tableId = req.params.table_id;
   const newData = { reservation_id: null }
   const oldData = res.locals.table.reservation_id
+
+  const newStatus = {status: "finished"}
   
   if(oldData === null){
     return next({ status: 400, message: "not occupied" });
   }
 
+  const statusData = await service.statusUpdate(newStatus ,Number(oldData))
   const data = await service.update(newData, Number(tableId));
-  return res.status(200).json({ data: data })
+
+  return res.status(200).json({ data: data }),res.status(200).json({ data: statusData })
 }
 
 module.exports = {

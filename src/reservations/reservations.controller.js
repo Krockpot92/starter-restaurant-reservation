@@ -11,8 +11,6 @@ async function list(req, res) {
   if (isQuery) {
     service.isQuery(isQuery).then((data) => res.send({ data }));
   }
-  // const data = await service.list();
-  // res.json({ data });
 }
 
 function reservationExists(req, res, next) {
