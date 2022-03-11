@@ -99,7 +99,16 @@ function bodyDataHas(propertyName) {
   };
 }
 
-async function create(req, res) {
+async function create(req, res, next) {
+  if (req.body.data.status === "seated"){
+    return next({status: 400, message:"seated"})
+  }
+  if (req.body.data.status === "finished"){
+    return next({status: 400, message:"finished"})
+  }
+
+  req.body.data.status= "seated"
+
   const data = await service.create(req.body.data);
   res.status(201).json({ data });
 }
@@ -112,11 +121,23 @@ async function destroy(req, res) {
 
 async function statusUpdate(req, res, next) {
   const reservationId = req.params.reservation_id;
-  const newData = req.body.data;
-  const peopleData = res.locals.reservation
-  return console.log("test", newData, peopleData, reservationId)
+  const newData = req.body.data
+  const currentStatus= res.locals.reservation.status
 
-  //const data = await service.update(newData, Number(reservationId));
+  if(!newData.status){
+    return next({status: 400, message:"unknown"})
+  }
+
+  if(newData.status !="booked" && newData.status !="seated" && newData.status !="finished"){
+    return next({status: 400, message:"unknown"})
+  }
+
+  if(currentStatus === "finished"){
+    return next({status: 400, message:"finished"} )
+  }
+  
+  const data = await service.statusUpdate(newData, Number(reservationId));
+  return res.status(200).json({ data: data });
 }
   
   

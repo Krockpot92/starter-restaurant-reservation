@@ -38,6 +38,14 @@ function update(updatedId,table_id){
       .then((data)=> data[0])
 }
 
+function statusUpdate(updatedId,reservation_id){
+  return knex(reservationsTable)
+  .where({reservation_id})
+  .update(updatedId)
+  .returning("*")
+  .then((data)=> data[0])
+}
+
 
 module.exports={
     list,
@@ -45,4 +53,5 @@ module.exports={
     read,
     update,
     getPeople,
+    statusUpdate
 }

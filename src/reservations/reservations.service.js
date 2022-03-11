@@ -12,6 +12,7 @@ function isQuery(date){
     return knex(tableName)
     .select("*")
     .where({reservation_date : date})
+    .whereNot ({status : "finished"})
     .orderBy("reservation_time")
 }
 
