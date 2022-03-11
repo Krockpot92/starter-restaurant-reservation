@@ -80,3 +80,10 @@ export function next(currentDate) {
   date.setDate(date.getDate() + 1);
   return asDateString(date);
 }
+
+export function currentTime(){
+  let today = new Date();
+  let time = today.getHours() + ":" + today.getMinutes();
+  let converted = time.replace(":",".")
+  return parseFloat(converted)
+}
