@@ -16,6 +16,15 @@ function isQuery(date){
     .orderBy("reservation_time")
 }
 
+function search(mobile_number) {
+    return knex(tableName)
+      .whereRaw(
+        "translate(mobile_number, '() -', '') like ?",
+        `%${mobile_number.replace(/\D/g, "")}%`
+      )
+      .orderBy("reservation_date");
+  }
+
 function read(reservation_id) {
     return knex(tableName)
     .select("*")
@@ -49,4 +58,5 @@ module.exports={
     read,
     isQuery,
     statusUpdate,
+    search,
 }
