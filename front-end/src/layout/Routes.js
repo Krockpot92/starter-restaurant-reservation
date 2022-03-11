@@ -5,6 +5,7 @@ import Dashboard from "../dashboard/Dashboard";
 import New from "../new/New"
 import NewTable from "../newTable/NewTable"
 import SeatPage from "../SeatPage/SeatPage"
+import Search from "../Search/Search"
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
@@ -45,6 +46,9 @@ function Routes() {
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <SeatPage />
+      </Route>
+      <Route path="/search">
+        <Search />
       </Route>
       <Route>
         <NotFound />

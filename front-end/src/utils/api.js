@@ -89,6 +89,7 @@ export async function createReservation(params, signal) {
 }
 
 export async function listTables(params, signal) {
+  console.log("about to call listTables")
   const url = new URL(`${API_BASE_URL}/tables`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())

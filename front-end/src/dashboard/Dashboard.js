@@ -21,11 +21,13 @@ function Dashboard({ date }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
+    console.log("loadDashboard 1")
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     listTables({ date }, abortController.signal)
       .then(setTables)
+      .then(()=> console.log("List Tables Please Work!!!!"))
       .catch(setTablesError);
 
     return () => abortController.abort();
@@ -76,11 +78,13 @@ function Dashboard({ date }) {
 
     if (table.reservation_id != null) {
       isFree = "occupied";
+      console.log("Dashboard 1")
       isFinished = (
         <WindowPop
           reservationId={table.reservation_id}
           tableId={table.table_id}
           table={table}
+          loadDashboard= {loadDashboard}
         />
       );
     }

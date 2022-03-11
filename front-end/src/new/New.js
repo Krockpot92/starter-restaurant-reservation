@@ -12,6 +12,7 @@ function New() {
     reservation_date: "",
     reservation_time: "",
     people: "",
+    status: "booked"
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -64,7 +65,7 @@ function New() {
       reservation_date: formData.reservation_date,
       reservation_time: formData.reservation_time,
       people: Number(formData.people),
-      status: "booked"
+      status: formData.status
     })
       .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
       .catch(setReservationsError);
