@@ -47,7 +47,7 @@ export default function NewTable() {
             minLength="2"
             required
             onChange={handleTableChange}
-            value={table_name}
+            value={formData.table_name}
           />
         </label>
 
@@ -60,11 +60,11 @@ export default function NewTable() {
             min="1"
             required
             onChange={handleTableChange}
-            value={capacity}
+            value={formData.capacity}
           />
         </label>
 
-        <button className="btn btn-secondary" onClick={history.goBack}>
+        <button className="btn btn-secondary" type="button" onClick={history.goBack}>
           Cancel
         </button>
         <button className="btn btn-primary" type="submit">

@@ -64,7 +64,7 @@ export default function Edit() {
             placeholder="first name"
             required
             onChange={handleReservationChange}
-            value={first_name}
+            value={reservations.first_name}
           />
         </label>
 
@@ -76,7 +76,7 @@ export default function Edit() {
             placeholder="last name"
             required
             onChange={handleReservationChange}
-            value={last_name}
+            value={reservations.last_name}
           />
         </label>
 
@@ -89,7 +89,7 @@ export default function Edit() {
             required
             //pattern="\d{3}[\-]\d{3}[\-]\d{4}"
             onChange={handleReservationChange}
-            value={mobile_number}
+            value={reservations.mobile_number}
           />
         </label>
 
@@ -102,7 +102,7 @@ export default function Edit() {
             //min={today()}
             required
             onChange={handleReservationChange}
-            value={reservation_date}
+            value={reservations.reservation_date}
           />
         </label>
 
@@ -114,7 +114,7 @@ export default function Edit() {
             name="reservation_time"
             required
             onChange={handleReservationChange}
-            value={reservation_time}
+            value={reservations.reservation_time}
           />
         </label>
 
@@ -129,11 +129,11 @@ export default function Edit() {
             name="people"
             required
             onChange={handleReservationChange}
-            value={people}
+            value={reservations.people}
           />
         </label>
 
-        <button className="btn btn-danger" onClick={history.goBack}>
+        <button className="btn btn-danger" type="button" onClick={history.goBack}>
           Cancel
         </button>
 

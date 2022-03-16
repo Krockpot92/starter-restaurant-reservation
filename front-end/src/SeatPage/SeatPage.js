@@ -46,9 +46,10 @@ export default function SeatPage() {
   let tableFind = tables.find((table) => {
     return table.table_id === Number(formData.table_id);
   });
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
     statusUpdateTable(
       {
         reservation_id: Number(reservations.reservation_id),
@@ -59,6 +60,8 @@ export default function SeatPage() {
       .catch(setTablesError);
     return () => abortController.abort();
   };
+
+console.log(tables)
 
   return (
     <div>
@@ -78,12 +81,13 @@ export default function SeatPage() {
           {tablesData}
         </select>
         
-        <button className="btn btn-secondary">cancel</button>
+        <button className="btn btn-secondary" onClick={history.goBack} type="button">Cancel</button>
         <button className="btn btn-primary" type="submit">
           Submit
         </button>
         
       </form>
+      
     </div>
   );
 }

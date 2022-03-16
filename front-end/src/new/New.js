@@ -86,7 +86,7 @@ function New() {
               placeholder="first name"
               required
               onChange={handleReservationChange}
-              value={first_name}
+              value={formData.first_name}
             />
           </label>
 
@@ -98,7 +98,7 @@ function New() {
               placeholder="last name"
               required
               onChange={handleReservationChange}
-              value={last_name}
+              value={formData.last_name}
             />
           </label>
 
@@ -111,7 +111,7 @@ function New() {
               required
               //pattern="\d{3}[\-]\d{3}[\-]\d{4}"
               onChange={handleReservationChange}
-              value={mobile_number}
+              value={formData.mobile_number}
             />
           </label>
 
@@ -124,7 +124,7 @@ function New() {
               //min={today()}
               required
               onChange={handleReservationChange}
-              value={reservation_date}
+              value={formData.reservation_date}
             />
           </label>
 
@@ -136,7 +136,7 @@ function New() {
               name="reservation_time"
               required
               onChange={handleReservationChange}
-              value={reservation_time}
+              value={formData.reservation_time}
             />
           </label>
 
@@ -151,11 +151,11 @@ function New() {
               name="people"
               required
               onChange={handleReservationChange}
-              value={people}
+              value={formData.people}
             />
           </label>
 
-          <button className="btn btn-secondary" onClick={history.goBack}>
+          <button className="btn btn-secondary" type="button" onClick={history.goBack}>
             Cancel
           </button>
 
