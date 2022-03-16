@@ -9,7 +9,7 @@ export default function Edit() {
 
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-
+  
   const abortController = new AbortController();
 
   useEffect(loadDashboard, [reservation_id]);
@@ -29,11 +29,8 @@ export default function Edit() {
     });
   };
 
-  //console.log(reservations);
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(reservations);
     updateReservation(
       {
         first_name: reservations.first_name,
@@ -52,6 +49,8 @@ export default function Edit() {
     return () => abortController.abort();
   };
 
+  
+
   return (
     <div>
       <h1>Edit Reservation {reservation_id}</h1>
@@ -65,7 +64,7 @@ export default function Edit() {
             placeholder="first name"
             required
             onChange={handleReservationChange}
-            value={reservations.first_name}
+            value={first_name}
           />
         </label>
 
@@ -77,7 +76,7 @@ export default function Edit() {
             placeholder="last name"
             required
             onChange={handleReservationChange}
-            value={reservations.last_name}
+            value={last_name}
           />
         </label>
 
@@ -90,7 +89,7 @@ export default function Edit() {
             required
             //pattern="\d{3}[\-]\d{3}[\-]\d{4}"
             onChange={handleReservationChange}
-            value={reservations.mobile_number}
+            value={mobile_number}
           />
         </label>
 
@@ -103,7 +102,7 @@ export default function Edit() {
             //min={today()}
             required
             onChange={handleReservationChange}
-            value={reservations.reservation_date}
+            value={reservation_date}
           />
         </label>
 
@@ -115,7 +114,7 @@ export default function Edit() {
             name="reservation_time"
             required
             onChange={handleReservationChange}
-            value={reservations.reservation_time}
+            value={reservation_time}
           />
         </label>
 
@@ -130,7 +129,7 @@ export default function Edit() {
             name="people"
             required
             onChange={handleReservationChange}
-            value={reservations.people}
+            value={people}
           />
         </label>
 

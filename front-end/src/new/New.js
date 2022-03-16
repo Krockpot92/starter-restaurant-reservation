@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today, currentTime } from "../utils/date-time";
-//
+
 function New() {
   const initialState = {
     first_name: "",
@@ -86,7 +86,7 @@ function New() {
               placeholder="first name"
               required
               onChange={handleReservationChange}
-              value={formData.first_name}
+              value={first_name}
             />
           </label>
 
@@ -98,7 +98,7 @@ function New() {
               placeholder="last name"
               required
               onChange={handleReservationChange}
-              value={formData.last_name}
+              value={last_name}
             />
           </label>
 
@@ -111,7 +111,7 @@ function New() {
               required
               //pattern="\d{3}[\-]\d{3}[\-]\d{4}"
               onChange={handleReservationChange}
-              value={formData.mobile_number}
+              value={mobile_number}
             />
           </label>
 
@@ -124,7 +124,7 @@ function New() {
               //min={today()}
               required
               onChange={handleReservationChange}
-              value={formData.reservation_date}
+              value={reservation_date}
             />
           </label>
 
@@ -136,7 +136,7 @@ function New() {
               name="reservation_time"
               required
               onChange={handleReservationChange}
-              value={formData.reservation_time}
+              value={reservation_time}
             />
           </label>
 
@@ -151,7 +151,7 @@ function New() {
               name="people"
               required
               onChange={handleReservationChange}
-              value={formData.people}
+              value={people}
             />
           </label>
 

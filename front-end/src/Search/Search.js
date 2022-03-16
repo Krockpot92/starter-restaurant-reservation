@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ErrorAlert from "../layout/ErrorAlert";
 import { listReservations } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import CancelWindow from "../utils/cancelWindow";
