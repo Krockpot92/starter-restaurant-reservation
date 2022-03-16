@@ -14,8 +14,8 @@ router
   .post(controller.create)
   .all(methodNotAllowed);
 
-router.route("/:reservation_id").get(controller.read).delete(controller.delete);
+router.route("/:reservation_id").get(controller.read).put(controller.update).delete(controller.delete);
 
-router.route("/:reservation_id/status").get(controller.read).put(controller.update).all(methodNotAllowed);
+router.route("/:reservation_id/status").get(controller.read).put(controller.statusUpdate).all(methodNotAllowed);
 
 module.exports = router;

@@ -15,9 +15,9 @@ async function list(req, res) {
     service.isQuery(isQuery).then((data) => res.send({ data }));
   }
 
-  // if (phoneQuery) {
-  //   service.search(phoneQuery).then((data) => res.send({ data }));
-  // }
+  if (phoneQuery) {
+    service.search(phoneQuery).then((data) => res.send({ data }));
+  }
 }
 
 function reservationExists(req, res, next) {
@@ -138,7 +138,8 @@ async function statusUpdate(req, res, next) {
   if (
     newData.status != "booked" &&
     newData.status != "seated" &&
-    newData.status != "finished"
+    newData.status != "finished" &&
+    newData.status != "cancelled"
   ) {
     return next({ status: 400, message: "unknown" });
   }
@@ -168,5 +169,22 @@ module.exports = {
   ],
   read: [reservationExists, read],
   delete: [reservationExists, asyncErrorBoundary(destroy)],
-  update: [reservationExists, asyncErrorBoundary(statusUpdate)],
+  statusUpdate: [
+    reservationExists,
+    asyncErrorBoundary(statusUpdate),
+  ],
+  update: [
+    reservationExists,
+    bodyDataHas("first_name"),
+    bodyDataHas("last_name"),
+    bodyDataHas("mobile_number"),
+    bodyDataHas("reservation_time"),
+    timeCheck("reservation_time"),
+    isTuesday("reservation_date"),
+    bodyDataHas("reservation_date"),
+    dateCheck("reservation_date"),
+    bodyDataHas("people"),
+    peopleCheck("people"),
+    asyncErrorBoundary(statusUpdate),
+  ],
 };
