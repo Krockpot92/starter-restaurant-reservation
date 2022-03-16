@@ -3,6 +3,7 @@ import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { next, previous } from "../utils/date-time";
 import WindowPop from "../utils/windowPop";
+import CancelWindow from "../utils/cancelWindow";
 /**
  * Defines the dashboard page.
  * @param date
@@ -21,13 +22,11 @@ function Dashboard({ date }) {
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    console.log("loadDashboard 1")
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     listTables({ date }, abortController.signal)
       .then(setTables)
-      .then(()=> console.log("List Tables Please Work!!!!"))
       .catch(setTablesError);
 
     return () => abortController.abort();
@@ -40,6 +39,9 @@ function Dashboard({ date }) {
 
   let reservationData = reservations.map((reservation, key) => {
     let seat = "";
+    let edit = "";
+    let cancel = "";
+    let reservation_id = reservation.reservation_id;
 
     if (reservation.status === "booked") {
       seat = (
@@ -49,6 +51,24 @@ function Dashboard({ date }) {
         >
           Seat
         </a>
+      );
+      edit = (
+        <a
+          className="btn btn-secondary pr-4 pl-4 mr-2"
+          href={`/reservations/${reservation_id}/edit`}
+        >
+          Edit
+        </a>
+      );
+    }
+
+    if (reservation.status != "cancelled") {
+      cancel = (
+        <CancelWindow
+          reservation={reservation}
+          loadDashboard={loadDashboard}
+          reservationId={reservation_id}
+        />
       );
     }
 
@@ -68,6 +88,8 @@ function Dashboard({ date }) {
           {reservation.status}{" "}
         </td>
         <td>{seat}</td>
+        <td>{edit}</td>
+        <td>{cancel}</td>
       </tr>
     );
   });
@@ -78,13 +100,12 @@ function Dashboard({ date }) {
 
     if (table.reservation_id != null) {
       isFree = "occupied";
-      console.log("Dashboard 1")
       isFinished = (
         <WindowPop
           reservationId={table.reservation_id}
           tableId={table.table_id}
           table={table}
-          loadDashboard= {loadDashboard}
+          loadDashboard={loadDashboard}
         />
       );
     }

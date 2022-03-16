@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams} from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { listTables, readReservations, updateTable } from "../utils/api";
+import { listTables, readReservations, statusUpdateTable } from "../utils/api";
 
 export default function SeatPage() {
   const { reservation_id } = useParams();
@@ -49,7 +49,7 @@ export default function SeatPage() {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-      updateTable(
+    statusUpdateTable(
       {
         reservation_id: Number(reservations.reservation_id),
       },

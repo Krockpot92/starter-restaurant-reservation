@@ -68,6 +68,7 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
+
 export async function readReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations/${params}`);
   Object.entries(params).forEach(([key, value]) =>
@@ -89,7 +90,6 @@ export async function createReservation(params, signal) {
 }
 
 export async function listTables(params, signal) {
-  console.log("about to call listTables")
   const url = new URL(`${API_BASE_URL}/tables`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
@@ -108,9 +108,21 @@ export async function createTable(params, signal) {
   return await fetchJson(url, options, {});
 }
 
-export async function updateTable(reservation,tableId, signal) {
+export async function statusUpdateTable(reservation,tableId, signal) {
   
   const url = `${API_BASE_URL}/tables/${tableId}/seat/`
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: reservation}),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
+export async function updateReservation(reservation,reservationId, signal) {
+  
+  const url = `${API_BASE_URL}/reservations/${reservationId}`
   const options = {
     method: "PUT",
     headers,
