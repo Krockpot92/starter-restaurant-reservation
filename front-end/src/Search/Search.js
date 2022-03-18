@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { listReservations } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import CancelWindow from "../utils/cancelWindow";
+import ErrorAlert from "../layout/ErrorAlert";
 
 export default function Search({ mobile_number }) {
   const initialState = {
@@ -47,7 +48,7 @@ export default function Search({ mobile_number }) {
       );
     }
 
-    if (reservation.status != "cancelled") {
+    if (reservation.status !== "cancelled") {
       cancel = (
         <CancelWindow
           reservation={reservation}
@@ -130,7 +131,7 @@ export default function Search({ mobile_number }) {
         <tbody>{reservationData}</tbody>
       </table>
       <div>{noReservations}</div>
-      {/* <ErrorAlert error={reservationsError} /> */}
+      <ErrorAlert error={reservationsError} />
     </main>
   );
 }

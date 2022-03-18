@@ -1,5 +1,4 @@
 import { deleteTable } from "../utils/api";
-import { useHistory} from "react-router-dom";
 
 export default function WindowPop({ reservationId, tableId, table, loadDashboard}) {
   function clickHandle() {

@@ -62,7 +62,7 @@ function Dashboard({ date }) {
       );
     }
 
-    if (reservation.status != "cancelled") {
+    if (reservation.status !== "cancelled") {
       cancel = (
         <CancelWindow
           reservation={reservation}
