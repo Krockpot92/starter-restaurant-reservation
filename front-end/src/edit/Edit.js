@@ -42,7 +42,6 @@ export default function Edit() {
       reservation_id
     )
       .then(() => history.push(`/dashboard/?date=${formData.reservation_date}`))
-      .then(() => loadDashboard())
       .catch(setReservationsError);
     return () => abortController.abort();
   };
