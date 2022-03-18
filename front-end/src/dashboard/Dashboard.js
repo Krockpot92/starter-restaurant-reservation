@@ -132,8 +132,8 @@ function Dashboard({ date }) {
       <h3>{noReservations}</h3>
       <ErrorAlert error={reservationsError} />
       <ErrorAlert error={tablesError} />
-
-      <table className="table">
+      
+      <table className="table ">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -144,6 +144,10 @@ function Dashboard({ date }) {
             <th scope="col">Time</th>
             <th scope="col">People</th>
             <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>{reservationData}</tbody>

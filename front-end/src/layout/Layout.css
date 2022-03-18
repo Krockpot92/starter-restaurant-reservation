@@ -1,6 +1,7 @@
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+  
 }
 
 .App {
@@ -12,9 +13,6 @@ label {
   width: 100px;
 }
 
-header {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
 
 /* typography */
 
@@ -31,25 +29,6 @@ th {
   padding: 10px;
 }
 
-td {
-  letter-spacing: 1px;
-  overflow-x:hidden;
-  overflow-y:hidden;
-  font-size: 12px;
-  padding: 10px;
-  text-align: center;
-}
-
-/* table */
-
-table {
-  table-layout: fixed;
-  width: 100%;
-  border-collapse: collapse;
-  overflow:hidden;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
 .content_td p {
   max-width: 100%;
   max-height: 100px;
@@ -64,9 +43,6 @@ h1{
     text-align: center;
 }
 
-/* Column size for tbody */
-td,th{
-    width: 10%;
-}
+
 
 
