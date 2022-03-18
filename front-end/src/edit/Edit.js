@@ -9,7 +9,17 @@ export default function Edit() {
   const history = useHistory();
   const { reservation_id } = useParams();
 
-  const [formData, setFormData] = useState([]);
+  const initialState = {
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    reservation_date: "",
+    reservation_time: "",
+    people: "",
+    status: "booked"
+  };
+
+  const [formData, setFormData] = useState(initialState);
   const [reservationsError, setReservationsError] = useState(null);
   
   const abortController = new AbortController();
