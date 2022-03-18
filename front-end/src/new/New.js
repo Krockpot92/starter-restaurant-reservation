@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { today, currentTime } from "../utils/date-time";
+import Form from "../form/Form"
 
 function New() {
   const initialState = {
@@ -49,12 +50,7 @@ function New() {
     );
   }
   
-  const handleReservationChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,92 +73,7 @@ function New() {
     <main>
       <h1>New Reservation</h1>
       <div className="d-md-flex mb-3">
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="first_name">
-            First name:
-            <input
-              id="first_name"
-              name="first_name"
-              placeholder="first name"
-              required
-              onChange={handleReservationChange}
-              value={formData.first_name}
-            />
-          </label>
-
-          <label htmlFor="last_name">
-            Last Name:
-            <input
-              id="last_name"
-              name="last_name"
-              placeholder="last name"
-              required
-              onChange={handleReservationChange}
-              value={formData.last_name}
-            />
-          </label>
-
-          <label htmlFor="mobile_number">
-            Mobile number:
-            <input
-              id="mobile_number"
-              placeholder="000-000-0000"
-              name="mobile_number"
-              required
-              //pattern="\d{3}[\-]\d{3}[\-]\d{4}"
-              onChange={handleReservationChange}
-              value={formData.mobile_number}
-            />
-          </label>
-
-          <label htmlFor="reservation_date">
-            Date of reservation:
-            <input
-              id="reservation_date"
-              type="date"
-              name="reservation_date"
-              //min={today()}
-              required
-              onChange={handleReservationChange}
-              value={formData.reservation_date}
-            />
-          </label>
-
-          <label htmlFor="reservation_time">
-            Time of reservation:
-            <input
-              id="reservation_time"
-              type="time"
-              name="reservation_time"
-              required
-              onChange={handleReservationChange}
-              value={formData.reservation_time}
-            />
-          </label>
-
-          <label htmlFor="people">
-            Number of people in the party:
-            <input
-              placeholder="1-9"
-              id="people"
-              min="1"
-              max="9"
-              type="number"
-              name="people"
-              required
-              onChange={handleReservationChange}
-              value={formData.people}
-            />
-          </label>
-
-          <button className="btn btn-secondary" type="button" onClick={history.goBack}>
-            Cancel
-          </button>
-
-          <button className="btn btn-primary" type="submit">
-            Submit
-          </button>
-        </form>
+        <Form formData={formData} handleSubmit={handleSubmit} setFormData={setFormData}/>
       </div>
 
       <div>{alerts}</div>
